@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login con Node.js y JS</title>
+    <link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2>Registro</h2>
+            <form id="registerForm">
+                <input type="text" id="registerUsername" placeholder="Usuario" required>
+                <input type="password" id="registerPassword" placeholder="Contraseña" required>
+                <button type="submit">Registrarse</button>
+            </form>
+            <p id="registerMessage" class="message"></p>
+        </div>
+
+        <div class="form-container">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <input type="text" id="loginUsername" placeholder="Usuario" required>
+                <input type="password" id="loginPassword" placeholder="Contraseña" required>
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+            <p id="loginMessage" class="message"></p>
+        </div>
+    </div>
+    
+    <div id="welcomeSection" class="hidden">
+        <h2>Bienvenido!</h2>
+        <p>Has iniciado sesión correctamente.</p>
+        <p>Tu token está guardado en el Local Storage.</p>
+    </div>
+
+    <script type="module" src="src/main.js"></script>
+</body>
+</html>

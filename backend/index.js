@@ -10,12 +10,13 @@ const app = express();
 const PORT = process.env.PORT;
 const JWT_SECRET = process.env.JWT_SECRET;
 
-app.use((req,res,next)=>{
+app.use((req, res, next) => {
   console.info(`request entries: ${req.method} ${req.url}`);
   console.info(`User Agent: ${req.headers['user-agent']}`);
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods","GET,POST,PUT,DELETE");
-  next(); 
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+	res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
 });
 
 app.use(express.json());
@@ -23,10 +24,10 @@ app.use(express.json());
 // emulacion de base de datos
 const users = [];
 
-app.post('/register', async (req, res) => { 
+app.post('/register', async (req, res) => {
   const { username, password } = req.body;
 
-  if (!username || !password){
+  if (!username || !password) {
     return res.status(400).json({ message: 'Username and password are required' });
   }
 
@@ -45,7 +46,7 @@ app.post('/register', async (req, res) => {
 
 });
 
-app.post('/login', async (req, res) => { 
+app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
   const user = users.find(user => user.username === username);
@@ -54,18 +55,18 @@ app.post('/login', async (req, res) => {
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
-  
+
   if (!isMatch) {
     return res.status(400).json({ message: 'Invalid username or password' });
   }
 
-  const token = jwt.sign({ id: user.id, username: user.username}, JWT_SECRET, { expiresIn: '1h' });
+  const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
 
   res.json({ token });
 
 });
 
-app.listen(PORT, () => { 
+app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
   console.log(`Using JWT_SECRET: ${JWT_SECRET}`);
 });
