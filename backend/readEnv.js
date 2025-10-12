@@ -11,7 +11,7 @@ function readEnvFdile() {
 		const data = fs.readFileSync(pathToEnv, 'utf8');
 		const lines = data.split('\n');
 		for (const line of lines) {
-			if (line.trim() === '' && line.startsWith("#")) continue;
+			if (line.trim() === '' || line.startsWith("#")) continue;
 			const indexEquals = line.indexOf('=');
 			if (indexEquals === -1) continue;
 			const key = line.slice(0, indexEquals).trim();
