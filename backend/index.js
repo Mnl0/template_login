@@ -3,6 +3,7 @@ import readEnvFdile from './readEnv.js';
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import fs from 'fs';
 readEnvFdile();
 
 
@@ -23,6 +24,23 @@ app.use(express.json());
 
 // emulacion de base de datos
 const users = [];
+
+const verifyToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'Access denied. No token provided.' });
+  }
+
+  const token = authHeader.split(' ')[1];
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    res.status(401).json({ message: 'Invalid token' });
+  }
+};
 
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;
@@ -64,6 +82,26 @@ app.post('/login', async (req, res) => {
 
   res.json({ token });
 
+});
+
+app.post('/comments', verifyToken, (req, res) => {
+  const { email, comment, rating } = req.body;
+
+  if (!email || !comment || !rating) {
+    return res.status(400).json({ message: 'Email, comment, and rating are required' });
+  }
+
+  const timestamp = new Date().toISOString();
+  const commentLine = `${timestamp},${email},${rating},"${comment.replace(/"/g, '""')}"
+`;
+
+  fs.appendFile('comments.txt', commentLine, (err) => {
+    if (err) {
+      console.error('Error writing to comments.txt:', err);
+      return res.status(500).json({ message: 'Failed to save comment' });
+    }
+    res.status(201).json({ message: 'Comment saved successfully' });
+  });
 });
 
 app.listen(PORT, () => {

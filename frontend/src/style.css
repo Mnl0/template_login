@@ -1,15 +1,18 @@
 body {
   font-family: sans-serif;
   display: flex;
+  flex-direction: column; /* Align items vertically */
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #f0f0f0;
+  padding: 20px 0;
 }
 
 .container {
   display: flex;
   gap: 40px;
+  margin-bottom: 20px; /* Add some space below the login/register boxes */
 }
 
 .form-container {
@@ -17,11 +20,12 @@ body {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 250px; /* Give a fixed width */
 }
 
-input {
+input, textarea {
   display: block;
-  width: 200px;
+  width: calc(100% - 16px); /* Adjust width considering padding */
   padding: 8px;
   margin-bottom: 10px;
   border-radius: 4px;
@@ -45,4 +49,39 @@ button {
 
 .hidden {
   display: none;
+}
+
+/* Rating Styles */
+.rating {
+  display: flex;
+  flex-direction: row-reverse; /* Reverse to make the stars select from right to left */
+  justify-content: flex-end; /* Align to the right */
+  margin-bottom: 10px;
+}
+
+.rating > input {
+  display: none; /* Hide the radio buttons */
+}
+
+.rating > label {
+  position: relative;
+  width: 1.1em;
+  font-size: 2rem;
+  color: #FFD600; /* Star color */
+  cursor: pointer;
+}
+
+.rating > label::before {
+  content: "★";
+  position: absolute;
+  opacity: 0.5; /* Unselected star opacity */
+}
+
+.rating > input:checked ~ label::before,
+.rating:hover > input:hover ~ label::before {
+  opacity: 1; /* Full opacity for selected or hovered stars */
+}
+
+.rating:hover > input:not(:hover) ~ label::before {
+    opacity: 0.5; /* Keep unhovered stars at lower opacity */
 }

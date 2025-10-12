@@ -28,6 +28,24 @@
             <p id="loginMessage" class="message"></p>
         </div>
     </div>
+
+    <div class="form-container hidden" id="commentSection">
+        <h2>Deja tu Comentario</h2>
+        <form id="commentForm">
+            <input type="email" id="commentEmail" placeholder="Tu correo electrónico" required>
+            <textarea id="commentText" placeholder="Escribe tu comentario aquí..." rows="4" required></textarea>
+            <div class="rating">
+                <span>Puntaje:</span>
+                <input type="radio" id="star5" name="rating" value="5" required/><label for="star5" title="5 estrellas"></label>
+                <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 estrellas"></label>
+                <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 estrellas"></label>
+                <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 estrellas"></label>
+                <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 estrella"></label>
+            </div>
+            <button type="submit">Enviar Comentario</button>
+        </form>
+        <p id="commentMessage" class="message"></p>
+    </div>
     
     <div id="welcomeSection" class="hidden">
         <h2>Bienvenido!</h2>

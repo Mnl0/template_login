@@ -64,6 +64,7 @@ loginForm.addEventListener('submit', async (e) => {
 
       document.querySelector('.container').classList.add('hidden');
       welcomeSection.classList.remove('hidden');
+      document.getElementById('commentSection').classList.remove('hidden');
     } else {
       throw new Error(data.message);
     }
@@ -73,4 +74,43 @@ loginForm.addEventListener('submit', async (e) => {
     loginMessage.style.color = 'red';
   }
   
+});
+
+commentForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const token = localStorage.getItem('token');
+  if (!token) {
+    commentMessage.textContent = 'Debes iniciar sesión para poder comentar.';
+    commentMessage.style.color = 'red';
+    return;
+  }
+
+  const email = document.getElementById('commentEmail').value;
+  const comment = document.getElementById('commentText').value;
+  const rating = document.querySelector('input[name="rating"]:checked').value;
+
+  try {
+    const response = await fetch(`${API_URL}/comments`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({ email, comment, rating }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      commentMessage.textContent = data.message;
+      commentMessage.style.color = 'green';
+      commentForm.reset();
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (error) {
+    commentMessage.textContent = error.message;
+    commentMessage.style.color = 'red';
+  }
 });
