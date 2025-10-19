@@ -18,6 +18,8 @@ export const registerHandler = async (req, res) => {
 
   users.push(newUser);
   console.info('User registered:', newUser);
+  // console.log('usuario: ', username);
+  // console.log('contraseña: ', password);
 
   res.status(201).json({ message: 'User registered successfully' });
 };
